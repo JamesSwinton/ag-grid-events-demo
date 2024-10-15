@@ -8,10 +8,7 @@ const MapChart = ({ data }) => {
   const [chartData, setChartData] = useState(defaultData);
 
   useEffect(() => {
-    // Make a deep copy of defaultData to avoid mutating it directly
     const updatedData = JSON.parse(JSON.stringify(defaultData));
-
-    // Increment nationality values based on data
     data.forEach((attendee) => {
       const nationality = updatedData.find(
         (nationality) => nationality.name === attendee.nationality

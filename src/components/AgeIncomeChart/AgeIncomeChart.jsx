@@ -93,9 +93,6 @@ const AgeIncomeChart = ({ data }) => {
         tooltip: {
           enabled: false,
         },
-        crosshair: {
-          enabled: false,
-        },
       },
     ],
     axes: [

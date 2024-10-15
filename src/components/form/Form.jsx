@@ -119,7 +119,7 @@ const DataForm = ({ onSubmit }) => {
           type="text"
           id="income"
           name="income"
-          placeholder="Enter your yearly income, in $ (USD)"
+          placeholder="Enter your yearly income in USD"
           value={formatIncome(formData.income)}
           onChange={handleChange}
           className={styles.input}
