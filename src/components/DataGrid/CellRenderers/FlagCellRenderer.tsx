@@ -1,9 +1,9 @@
-import { countryCodes } from '../../../data/CountryCodes';
+import { nationalityCodes } from '../../../data/nationalityCodes';
 import styles from './FlagCellRenderer.module.scss';
 
-function getCountryCode(countryName) {
-  for (const [code, name] of Object.entries(countryCodes)) {
-    if (name === countryName) {
+function getnationalityCode(nationalityName) {
+  for (const [code, name] of Object.entries(nationalityCodes)) {
+    if (name === nationalityName) {
       return code.toLowerCase();
     }
   }
@@ -18,7 +18,7 @@ export const FlagCellRenderer = (params) => {
       </div>
       <img
         className={styles.image}
-        src={`./flags/${getCountryCode(params.value)}.svg`}
+        src={`./flags/${getnationalityCode(params.value)}.svg`}
         alt={params.value?.toLowerCase()}
       />
     </div>

@@ -7,9 +7,9 @@ import DataGridStyles from './DataGridStyles.module.scss';
 import 'ag-grid-enterprise';
 
 const formatCurrencyGBP = (amount) =>
-  new Intl.NumberFormat('en-GB', {
+  new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'GBP',
+    currency: 'USD',
     minimumFractionDigits: 0,
   }).format(amount.value);
 
@@ -61,8 +61,8 @@ const DataGrid = ({ rowData }) => {
       valueFormatter: formatCurrencyGBP,
     },
     {
-      headerName: 'Country',
-      field: 'country',
+      headerName: 'Nationality',
+      field: 'nationality',
       sortable: true,
       filter: true,
       cellRenderer: FlagCellRenderer,

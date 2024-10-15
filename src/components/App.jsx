@@ -33,6 +33,21 @@ function App() {
     }
   }, [location, navigate]);
 
+  const links = [
+    {
+      text: 'Source Code',
+      url: 'https://github.com/JamesSwinton/ag-grid-events-demo',
+    },
+    {
+      text: 'Grid Docs',
+      url: 'https://www.ag-grid.com/react-data-grid/getting-started/',
+    },
+    {
+      text: 'Charts Docs',
+      url: 'https://www.ag-grid.com/charts/react/quick-start/',
+    },
+  ];
+
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
@@ -41,6 +56,18 @@ function App() {
           <img src={agChartsLogo} className={styles.logo} alt="ag-Grid Logo" />
         </div>
         <Form onSubmit={handleFormData} />
+        <div className={styles.linksContainer}>
+          {links.map((link, index) => (
+            <span key={index} className={styles.linkItem}>
+              <a href={link.url} target="_blank" className={styles.link}>
+                {link.text}
+              </a>
+              {index < links.length - 1 && (
+                <span className={styles.linkSeparator}>|</span>
+              )}
+            </span>
+          ))}
+        </div>
       </div>
       <div className={styles.content}>
         <div className={styles.gridContainer}>

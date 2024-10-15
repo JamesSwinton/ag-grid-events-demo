@@ -29,6 +29,40 @@ img {
   padding-bottom: 12px;
 }
 
+.linksContainer {
+  margin: 12px 0;
+  justify-content: center;
+  display: flex;
+  margin-top: auto;
+  margin-bottom: 40px;
+}
+
+.linkItem {
+  display: inline;
+}
+
+.linkSeparator {
+  margin-left: 4px;
+  margin-right: 4px;
+  color: white;
+}
+
+.link {
+  color: #8ea1e1;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #a1b4f2;
+  text-decoration: underline;
+}
+
+.link:active {
+  color: #cdd9ff;
+}
+
 .content {
   width: 100%;
   display: flex;

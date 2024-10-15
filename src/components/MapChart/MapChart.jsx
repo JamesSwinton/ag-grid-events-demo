@@ -11,13 +11,13 @@ const MapChart = ({ data }) => {
     // Make a deep copy of defaultData to avoid mutating it directly
     const updatedData = JSON.parse(JSON.stringify(defaultData));
 
-    // Increment country values based on data
+    // Increment nationality values based on data
     data.forEach((attendee) => {
-      const country = updatedData.find(
-        (country) => country.name === attendee.country
+      const nationality = updatedData.find(
+        (nationality) => nationality.name === attendee.nationality
       );
-      if (country) {
-        country.value += 1;
+      if (nationality) {
+        nationality.value += 1;
       }
     });
 
@@ -41,7 +41,7 @@ const MapChart = ({ data }) => {
       },
       {
         type: 'map-shape',
-        title: 'Attendees Country',
+        title: 'Attendees nationality',
         idKey: 'name',
         colorKey: 'value',
         colorName: 'Number of Attendees',

@@ -1,49 +1,97 @@
 import React, { useState } from 'react';
+import Select from 'react-select'; // Import react-select
 import styles from './Form.module.scss';
-import { countryCodes } from '../../data/CountryCodes';
+import { nationalityCodes } from '../../data/nationalityCodes';
 
-const DataForm = ({ onSubmit, toggleModal }) => {
+const DataForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
-    age: 18,
-    experience: 2,
-    degree: false, // Keep as a boolean
-    income: 100000,
-    country: 'United Kingdom',
+    age: '',
+    experience: 0,
+    degree: '',
+    income: 0,
+    nationality: '',
   });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const [errors, setErrors] = useState({});
 
-    // Convert value based on input type or name
-    const isNumberField = ['age', 'experience', 'income'].includes(name);
+  // Prepare options for react-select
+  const nationalityOptions = Object.entries(nationalityCodes).map(
+    ([code, name]) => ({
+      value: name,
+      label: name,
+    })
+  );
+
+  const handleChange = ({ target: { name, value, type, checked } }) => {
     const parsedValue =
       type === 'checkbox'
         ? checked
         : name === 'degree'
-        ? value === 'true' // Convert "true"/"false" strings to booleans
-        : isNumberField
+        ? value === 'true'
+        : ['age', 'experience', 'income'].includes(name)
         ? value === ''
           ? ''
-          : Number(value)
+          : Number(value.replace(/[^\d]/g, ''))
         : value;
 
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: parsedValue,
-    });
+    }));
+  };
+
+  // Handler specifically for react-select
+  const handleNationalityChange = (selectedOption) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      nationality: selectedOption ? selectedOption.value : '',
+    }));
+  };
+
+  const validateForm = () => {
+    let validationErrors = {};
+    if (formData.age < 18 || formData.age > 100) {
+      validationErrors.age = 'Age must be between 18 and 100.';
+    }
+    if (formData.income < 0) {
+      validationErrors.income = 'Income must be a positive number.';
+    }
+    if (formData.experience < 0 || formData.experience > 50) {
+      validationErrors.experience =
+        'Experience must be between 0 and 50 years.';
+    }
+    if (!formData.nationality) {
+      validationErrors.nationality = 'Nationality is required.';
+    }
+    if (formData.degree === '') {
+      validationErrors.degree = 'Degree selection is required.';
+    }
+    setErrors(validationErrors);
+    return Object.keys(validationErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    toggleModal();
+    if (validateForm()) {
+      onSubmit(formData);
+    }
+  };
+
+  const formatIncome = (income) => {
+    return income
+      ? new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 0,
+        }).format(income)
+      : '';
   };
 
   return (
     <div className={styles.container}>
       <p className={styles.title}>
-        Submit your own data to see how you compare to other attendees at the
-        event
+        Use the form below to add your data to the grid and charts, and see how
+        you compare to other attendees at this event.
       </p>
       <form onSubmit={handleSubmit} className={styles.form}>
         {/* Age Input */}
@@ -55,28 +103,31 @@ const DataForm = ({ onSubmit, toggleModal }) => {
           id="age"
           name="age"
           step="1"
+          placeholder="Enter your age"
           value={formData.age}
           onChange={handleChange}
           className={styles.input}
           required
         />
+        {errors.age && <span className={styles.error}>{errors.age}</span>}
 
-        {/* Yearly Income Input */}
+        {/* Yearly Income Input with Currency Formatting */}
         <label htmlFor="income" className={styles.label}>
-          Yearly Income:
+          Yearly Income ($):
         </label>
         <input
-          type="number"
+          type="text"
           id="income"
           name="income"
-          step="1000"
-          value={formData.income}
+          placeholder="Enter your yearly income, in $ (USD)"
+          value={formatIncome(formData.income)}
           onChange={handleChange}
           className={styles.input}
           required
         />
+        {errors.income && <span className={styles.error}>{errors.income}</span>}
 
-        {/* Degree - Now a Boolean Dropdown */}
+        {/* Degree - Boolean Dropdown */}
         <label htmlFor="degree" className={styles.label}>
           Degree:
         </label>
@@ -88,28 +139,30 @@ const DataForm = ({ onSubmit, toggleModal }) => {
           className={styles.input}
           required
         >
+          <option value="">Select...</option>
           <option value={true}>Yes</option>
           <option value={false}>No</option>
         </select>
+        {errors.degree && <span className={styles.error}>{errors.degree}</span>}
 
-        {/* Country of Origin Dropdown */}
-        <label htmlFor="country" className={styles.label}>
-          Country of Origin:
+        {/* Nationality of Origin Searchable Dropdown */}
+        <label htmlFor="nationality" className={styles.label}>
+          Nationality:
         </label>
-        <select
-          id="country"
-          name="country"
-          value={formData.country}
-          onChange={handleChange}
-          className={styles.input}
-          required
-        >
-          {Object.entries(countryCodes).map(([code, name]) => (
-            <option key={name} value={name}>
-              {name}
-            </option>
-          ))}
-        </select>
+        <Select
+          id="nationality"
+          name="nationality"
+          options={nationalityOptions}
+          value={nationalityOptions.find(
+            (option) => option.value === formData.nationality
+          )}
+          onChange={handleNationalityChange}
+          className={styles.reactSelectInput}
+          isClearable
+        />
+        {errors.nationality && (
+          <span className={styles.error}>{errors.nationality}</span>
+        )}
 
         {/* Years of Experience Slider */}
         <label htmlFor="experience" className={styles.label}>
@@ -127,6 +180,9 @@ const DataForm = ({ onSubmit, toggleModal }) => {
           onChange={handleChange}
           className={styles.input}
         />
+        {errors.experience && (
+          <span className={styles.error}>{errors.experience}</span>
+        )}
 
         <button type="submit" className={styles.button}>
           Submit

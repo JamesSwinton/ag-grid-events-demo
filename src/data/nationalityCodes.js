@@ -1,4 +1,4 @@
-export const countryCodes = {
+export const nationalityCodes = {
   AF: 'Afghanistan',
   AL: 'Albania',
   DZ: 'Algeria',
