@@ -5,6 +5,7 @@ import { topology } from './topology';
 import 'ag-charts-enterprise';
 
 const MapChart = ({ data }) => {
+  const [stepInterval, setStepInterval] = useState(1);
   const [chartData, setChartData] = useState(defaultData);
 
   useEffect(() => {
@@ -19,6 +20,7 @@ const MapChart = ({ data }) => {
     });
 
     setChartData(updatedData);
+    setStepInterval(Math.ceil(data?.length / 3));
   }, [data]);
 
   const options = {
@@ -46,7 +48,7 @@ const MapChart = ({ data }) => {
       },
     ],
     gradientLegend: {
-      enabled: true,
+      enabled: false,
       position: 'right',
       gradient: {
         preferredLength: 200,
@@ -57,8 +59,7 @@ const MapChart = ({ data }) => {
           fontSize: 12,
         },
         interval: {
-          step: 1,
-          minSpacing: 100,
+          step: stepInterval,
         },
       },
     },
