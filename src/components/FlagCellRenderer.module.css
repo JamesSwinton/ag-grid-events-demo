@@ -1,0 +1,25 @@
+.flagCell {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: left;
+  gap: 8px;
+  height: 100%;
+}
+
+.employeeData {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.employeeData > span {
+  line-height: 20px;
+}
+
+.image {
+  position: relative;
+  width: 22px;
+  height: 18px;
+}
