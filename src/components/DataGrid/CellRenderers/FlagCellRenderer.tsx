@@ -1,9 +1,5 @@
-import { urlWithBaseUrl } from '@utils/urlWithBaseUrl';
-import { type FunctionComponent } from 'react';
-import { countryCodes } from './CountryCodes';
-import type { CustomCellRendererProps } from 'ag-grid-react';
-
-import styles from './FlagCellRenderer.module.css';
+import { countryCodes } from '../../../data/CountryCodes';
+import styles from './FlagCellRenderer.module.scss';
 
 function getCountryCode(countryName) {
   for (const [code, name] of Object.entries(countryCodes)) {

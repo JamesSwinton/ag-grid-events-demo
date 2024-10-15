@@ -18,4 +18,6 @@ body {
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background: #192232;
   background-color: #192232;
+  overflow: hidden;
+  margin: 0;
 }

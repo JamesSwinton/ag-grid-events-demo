@@ -2,27 +2,9 @@ import React, { useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
-import { FlagCellRenderer } from './FlagCellRenderer';
+import { FlagCellRenderer } from './CellRenderers/FlagCellRenderer';
 import DataGridStyles from './DataGridStyles.module.scss';
 import 'ag-grid-enterprise';
-
-const Button = ({ onClick }) => {
-  return (
-    <button onClick={() => onClick()} className={DataGridStyles.button}>
-      Add Data
-    </button>
-  );
-};
-
-const DeleteButton = ({ params }) => {
-  return (
-    <img
-      src={'./bin.png'}
-      onClick={() => {}}
-      className={DataGridStyles.deleteButton}
-    />
-  );
-};
 
 const formatCurrencyGBP = (amount) =>
   new Intl.NumberFormat('en-GB', {
@@ -45,7 +27,7 @@ const degreeCellRenderer = (params) => (
   </span>
 );
 
-const DataGrid = ({ rowData, toggleModal }) => {
+const DataGrid = ({ rowData }) => {
   const columnDefs = [
     {
       headerName: 'Age',
@@ -85,14 +67,6 @@ const DataGrid = ({ rowData, toggleModal }) => {
       filter: true,
       cellRenderer: FlagCellRenderer,
     },
-    // {
-    //   field: 'button',
-    //   headerName: 'Button',
-    //   headerComponent: Button,
-    //   headerComponentParams: {
-    //     onClick: toggleModal,
-    //   },
-    // },
   ];
 
   const autoSizeStrategy = {
@@ -162,7 +136,7 @@ const DataGrid = ({ rowData, toggleModal }) => {
   return (
     <div
       className="ag-theme-quartz-dark"
-      style={{ height: 550, width: '100%' }}
+      style={{ height: 575, width: '100%' }}
     >
       <AgGridReact
         rowData={rowData}

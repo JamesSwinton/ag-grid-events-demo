@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Form.module.scss';
-import { countryCodes } from '../CountryCodes';
+import { countryCodes } from '../../data/CountryCodes';
 
 const DataForm = ({ onSubmit, toggleModal }) => {
   const [formData, setFormData] = useState({
@@ -41,10 +41,10 @@ const DataForm = ({ onSubmit, toggleModal }) => {
 
   return (
     <div className={styles.container}>
-      <span className={styles.close} onClick={toggleModal}>
-        &times;
-      </span>
-      <h2 className={styles.title}>Add Your Data</h2>
+      <p className={styles.title}>
+        Submit your own data to see how you compare to other attendees at the
+        event
+      </p>
       <form onSubmit={handleSubmit} className={styles.form}>
         {/* Age Input */}
         <label htmlFor="age" className={styles.label}>

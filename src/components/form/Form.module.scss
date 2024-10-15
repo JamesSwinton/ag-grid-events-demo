@@ -1,77 +1,77 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-width: 400px;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  .title {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-  }
-  
-  .input,
-  .textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    background-color: #f9f9f9;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  
-    &:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
-      background-color: #fff;
-    }
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 400px;
+  max-width: 400px;
+  margin: 0 auto;
+}
 
-    &::placeholder {
-      color: #aaa;
-      font-style: italic;
-    }
-  }
-  
-  .textarea {
-    resize: none;
-  }
-  
-  .button {
-    padding: 10px 15px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  
-    &:hover {
-      background-color: #0056b3;
-    }
+.title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: white;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+}
+
+.input,
+.textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  background-color: #f9f9f9;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+    background-color: #fff;
   }
 
-  .label {
-    display: flex;
-    justify-content: flex-start;
+  &::placeholder {
+    color: #aaa;
+    font-style: italic;
   }
-  
-  .span {
-    margin-left: 4px;
+}
+
+.textarea {
+  resize: none;
+}
+
+.button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
   }
+}
 
+.label {
+  display: flex;
+  justify-content: flex-start;
+  color: white;
+  font-weight: 600;
+}
 
+.span {
+  margin-left: 4px;
+}
 
 .close {
   position: absolute;
