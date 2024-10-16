@@ -4,15 +4,17 @@ import styles from './Form.module.scss';
 import { nationalityCodes } from '../../data/nationalityCodes';
 
 const DataForm = ({ onSubmit }) => {
-  const [formData, setFormData] = useState({
+  const defaultFormData = {
     age: '',
     experience: 0,
     degree: '',
     income: 0,
     nationality: '',
-  });
+  };
 
+  const [formData, setFormData] = useState(defaultFormData);
   const [errors, setErrors] = useState({});
+  const [formKey, setFormKey] = useState(0); // To force re-render form
 
   // Prepare options for react-select
   const nationalityOptions = Object.entries(nationalityCodes).map(
@@ -74,7 +76,14 @@ const DataForm = ({ onSubmit }) => {
     e.preventDefault();
     if (validateForm()) {
       onSubmit(formData);
+      resetForm(); // Call the reset function after a successful submission
     }
+  };
+
+  const resetForm = () => {
+    setFormData(defaultFormData);
+    setErrors({});
+    setFormKey((prevKey) => prevKey + 1); // Change key to force form re-render
   };
 
   const formatIncome = (income) => {
@@ -93,7 +102,7 @@ const DataForm = ({ onSubmit }) => {
         Use the form below to add your data to the grid and charts, and see how
         you compare to other attendees at this event.
       </p>
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form} key={formKey}>
         {/* Age Input */}
         <label htmlFor="age" className={styles.label}>
           Age:

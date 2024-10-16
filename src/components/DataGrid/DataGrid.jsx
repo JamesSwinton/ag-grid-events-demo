@@ -4,6 +4,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import { FlagCellRenderer } from './CellRenderers/FlagCellRenderer';
 import DataGridStyles from './DataGridStyles.module.scss';
+import './CustomStyles.css';
 import 'ag-grid-enterprise';
 
 const formatCurrencyGBP = (amount) =>
@@ -13,19 +14,66 @@ const formatCurrencyGBP = (amount) =>
     minimumFractionDigits: 0,
   }).format(amount.value);
 
-const degreeCellRenderer = (params) => (
-  <span className={DataGridStyles.missionSpan}>
-    {
-      <img
-        alt={`${params.value}`}
-        src={`https://www.ag-grid.com/example-assets/icons/${
-          params.value ? 'tick-in-circle' : 'cross-in-circle'
-        }.png`}
-        className={DataGridStyles.missionIcon}
-      />
+const degreeCellRenderer = (params) => {
+  if (params.value === undefined) return;
+  return (
+    <span className={DataGridStyles.missionSpan}>
+      {
+        <img
+          alt={`${params.value}`}
+          src={`https://www.ag-grid.com/example-assets/icons/${
+            params.value ? 'tick-in-circle' : 'cross-in-circle'
+          }.png`}
+          className={DataGridStyles.missionIcon}
+        />
+      }
+    </span>
+  );
+};
+
+const totalYesTotalNoAggFunc = (params) => {
+  return `yes (10) no (13)`;
+};
+
+const roundedAvgAggFunction = (params) => {
+  const result = avgAggFunction(params);
+  if (result.avg) {
+    result.avg = Math.round(result.avg * 100) / 100;
+  }
+  return result;
+};
+
+const avgAggFunction = (params) => {
+  let sum = 0;
+  let count = 0;
+  params.values.forEach((value) => {
+    const groupNode =
+      value !== null && value !== undefined && typeof value === 'object';
+    if (groupNode) {
+      sum += value.avg * value.count;
+      count += value.count;
+    } else {
+      if (typeof value === 'number') {
+        sum += value;
+        count++;
+      }
     }
-  </span>
-);
+  });
+
+  let avg = null;
+  if (count !== 0) {
+    avg = sum / count;
+  }
+
+  const result = {
+    count: count,
+    avg: avg,
+    toString: function () {
+      return `${this.avg}`;
+    },
+  };
+  return result;
+};
 
 const DataGrid = ({ rowData }) => {
   const columnDefs = [
@@ -34,20 +82,14 @@ const DataGrid = ({ rowData }) => {
       field: 'age',
       sortable: true,
       sort: 'asc',
-      aggFunc: 'avg',
+      aggFunc: roundedAvgAggFunction,
     },
     {
       headerName: 'Experience',
       field: 'experience',
       sortable: true,
-      aggFunc: 'avg',
+      aggFunc: roundedAvgAggFunction,
       valueFormatter: (p) => `${p.value} years`,
-    },
-    {
-      headerName: 'Degree',
-      field: 'degree',
-      sortable: true,
-      cellRenderer: degreeCellRenderer,
     },
     {
       headerName: 'Income',
@@ -61,8 +103,22 @@ const DataGrid = ({ rowData }) => {
       field: 'nationality',
       sortable: true,
       cellRenderer: FlagCellRenderer,
+      rowGroup: true,
+      hide: true,
+    },
+    {
+      headerName: 'Degree',
+      field: 'degree',
+      sortable: true,
+      cellRenderer: degreeCellRenderer,
     },
   ];
+
+  const autoGroupColumnDef = useMemo(() => {
+    return {
+      minWidth: 270,
+    };
+  }, []);
 
   const autoSizeStrategy = {
     type: 'fitGridWidth',
@@ -121,7 +177,7 @@ const DataGrid = ({ rowData }) => {
   return (
     <div
       className="ag-theme-quartz-dark"
-      style={{ height: 575, width: '100%' }}
+      style={{ height: 650, width: '100%' }}
     >
       <AgGridReact
         rowData={rowData}
@@ -137,6 +193,8 @@ const DataGrid = ({ rowData }) => {
         selectionColumnDef={selectionColumnDef}
         sideBar={sideBar}
         enableCharts={true}
+        suppressAggFuncInHeader={true}
+        autoGroupColumnDef={autoGroupColumnDef}
         // grandTotalRow={'bottom'}
       />
     </div>

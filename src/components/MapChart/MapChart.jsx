@@ -5,7 +5,6 @@ import { topology } from './topology';
 import 'ag-charts-enterprise';
 
 const MapChart = ({ data }) => {
-  const [stepInterval, setStepInterval] = useState(1);
   const [chartData, setChartData] = useState(defaultData);
 
   useEffect(() => {
@@ -20,12 +19,13 @@ const MapChart = ({ data }) => {
     });
 
     setChartData(updatedData);
-    setStepInterval(Math.ceil(data?.length / 3));
   }, [data]);
 
   const options = {
-    title: { text: 'Attendee Countries' },
-    subtitle: { text: 'Realtime attendee data' },
+    title: { text: 'Attendee Nationalities' },
+    subtitle: {
+      text: 'Zoom into the map and hover specific countries for more information',
+    },
     data: chartData, // use the updated chartData state
     topology,
     height: 575,
@@ -44,11 +44,11 @@ const MapChart = ({ data }) => {
         idKey: 'name',
         colorKey: 'value',
         colorName: 'Number of Attendees',
-        colorRange: ['#1b4f72', '#2ecc71', '#2cdbd6'],
+        colorRange: ['#1b4f72', '#f4d03f', '#e67e22', '#c0392b'],
       },
     ],
     gradientLegend: {
-      enabled: false,
+      enabled: true,
       position: 'right',
       gradient: {
         preferredLength: 200,
@@ -56,10 +56,8 @@ const MapChart = ({ data }) => {
       },
       scale: {
         label: {
-          fontSize: 12,
-        },
-        interval: {
-          step: stepInterval,
+          fontSize: 1,
+          color: '#192232',
         },
       },
     },

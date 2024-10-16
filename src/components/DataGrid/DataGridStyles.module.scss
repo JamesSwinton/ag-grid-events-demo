@@ -1,40 +1,36 @@
 .missionSpan {
-    display: flex;
-    justify-content: center;
-    height: 100%;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
 }
 
 .missionIcon {
-    width: auto;
-    height: auto;
+  width: auto;
+  height: auto;
 }
 
 .button {
-    width: 100%;
-    padding: 4px 8px;
-    margin: 22px;
-    font-size: 16px;
-    background-color: #0570D6;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  
-    &:hover {
-      background-color: rgb(1, 68, 139);
-    }
+  width: 100%;
+  padding: 4px 8px;
+  margin: 22px;
+  font-size: 16px;
+  background-color: #0570d6;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgb(1, 68, 139);
+  }
 }
 
-.deleteButton { 
-    background: transparent;
-    fill: red !important;
-    color: red;
-    height: 22px;
-    width: 22px;
-}
-
-span.ag-cell-wrapper.ag-cell-expandable.ag-row-group.ag-row-group-indent-0 {
-    align-items: center !important;
+.deleteButton {
+  background: transparent;
+  fill: red !important;
+  color: red;
+  height: 22px;
+  width: 22px;
 }

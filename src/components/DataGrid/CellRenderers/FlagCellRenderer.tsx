@@ -11,6 +11,7 @@ function getnationalityCode(nationalityName) {
 }
 
 export const FlagCellRenderer = (params) => {
+  if (params.value === undefined) return;
   return (
     <div className={styles.flagCell}>
       <div className={styles.employeeData}>

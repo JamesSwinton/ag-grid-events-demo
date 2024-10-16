@@ -1,10 +1,10 @@
 import React from 'react';
 import { AgCharts } from 'ag-charts-react';
 
-const formatCurrencyGBP = (amount) =>
-  new Intl.NumberFormat('en-GB', {
+const formatCurrencyUSD = (amount) =>
+  new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'GBP',
+    currency: 'USD',
     minimumFractionDigits: 0,
   }).format(amount);
 
@@ -109,10 +109,10 @@ const AgeIncomeChart = ({ data }) => {
       {
         type: 'number',
         position: 'left',
-        title: { text: 'Yearly Income (GBP)' },
+        title: { text: 'Yearly Income (USD)' },
         label: {
           formatter: (p) => {
-            return formatCurrencyGBP(p.value);
+            return formatCurrencyUSD(p.value);
           },
         },
       },
