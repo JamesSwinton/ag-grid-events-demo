@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Select from 'react-select'; // Import react-select
 import styles from './Form.module.scss';
 import { nationalityCodes } from '../../data/nationalityCodes';
+import { components } from 'react-select';
+
+const currency = import.meta.env.VITE_CURRENCY;
 
 const DataForm = ({ onSubmit }) => {
   const defaultFormData = {
@@ -94,7 +97,7 @@ const DataForm = ({ onSubmit }) => {
 
   const formatIncome = (income) => {
     return income
-      ? new Intl.NumberFormat('en-US', {
+      ? new Intl.NumberFormat(currency === 'USD' ? 'en-US' : 'en-GB', {
           minimumFractionDigits: 0,
         }).format(income)
       : '';
@@ -102,6 +105,18 @@ const DataForm = ({ onSubmit }) => {
 
   const toggleIncomeVisibility = () => {
     setShowIncome((prevState) => !prevState);
+  };
+
+  const CustomMenuList = (props) => {
+    const { options, children, ...rest } = props;
+
+    return (
+      <components.MenuList {...rest}>
+        {children.slice(0, 1)} {/* First two items */}
+        <hr style={{ margin: '8px 0' }} /> {/* Separator */}
+        {children.slice(2)} {/* Remaining items */}
+      </components.MenuList>
+    );
   };
 
   return (
@@ -129,15 +144,20 @@ const DataForm = ({ onSubmit }) => {
         {errors.age && <span className={styles.error}>{errors.age}</span>}
         {/* Yearly Income Input with Currency Formatting */}
         <label htmlFor="income" className={styles.label}>
-          Yearly Income ($):
+          Yearly Income ({currency === 'USD' ? '$' : '£'}):
         </label>
         <div className={styles.relativeContainer}>
-          <img className={styles.icon} src="./icons/dollar.png" />
+          <img
+            className={styles.icon}
+            src={
+              currency === 'USD' ? './icons/dollar.png' : './icons/pound.png'
+            }
+          />
           <input
             type={showIncome ? 'text' : 'password'}
             id="income"
             name="income"
-            placeholder="Enter your yearly income in USD"
+            placeholder={`Enter your yearly income in ${currency}`}
             value={formatIncome(formData.income)}
             onChange={handleChange}
             className={styles.relativeInput}
@@ -190,6 +210,7 @@ const DataForm = ({ onSubmit }) => {
           onChange={handleNationalityChange}
           className={styles.reactSelectInput}
           isClearable
+          components={{ MenuList: CustomMenuList }} // Use custom MenuList
         />
         {errors.nationality && (
           <span className={styles.error}>{errors.nationality}</span>

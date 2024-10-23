@@ -1,4 +1,5 @@
 export const nationalityCodes = {
+  GB: 'United Kingdom',
   AF: 'Afghanistan',
   AL: 'Albania',
   DZ: 'Algeria',
@@ -222,7 +223,6 @@ export const nationalityCodes = {
   UG: 'Uganda',
   UA: 'Ukraine',
   AE: 'United Arab Emirates',
-  GB: 'United Kingdom',
   US: 'United States',
   UM: 'United States Minor Outlying Islands',
   UY: 'Uruguay',

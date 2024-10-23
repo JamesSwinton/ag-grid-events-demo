@@ -7,10 +7,12 @@ import DataGridStyles from './DataGridStyles.module.scss';
 import './CustomStyles.css';
 import 'ag-grid-enterprise';
 
-const formatCurrencyGBP = (amount) =>
-  new Intl.NumberFormat('en-US', {
+const currency = import.meta.env.VITE_CURRENCY;
+
+const formatIncome = (amount) =>
+  new Intl.NumberFormat(currency === 'USD' ? 'en-US' : 'eb-GB', {
     style: 'currency',
-    currency: 'USD',
+    currency: currency,
     minimumFractionDigits: 0,
   }).format(amount.value);
 
@@ -96,7 +98,7 @@ const DataGrid = ({ rowData, removeData }) => {
       field: 'income',
       sortable: true,
       aggFunc: 'avg',
-      valueFormatter: formatCurrencyGBP,
+      valueFormatter: formatIncome,
     },
     {
       headerName: 'Nationality',

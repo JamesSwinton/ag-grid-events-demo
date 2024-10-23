@@ -6,4 +6,5 @@ body {
   background: #192232;
   background-color: #192232;
   margin: 0;
+  overflow: hidden;
 }
