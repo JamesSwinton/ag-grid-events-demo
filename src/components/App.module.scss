@@ -68,6 +68,7 @@ img {
 
 .content {
   width: 100%;
+  height: 95vh;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -75,9 +76,11 @@ img {
 }
 
 .gridContainer {
+  flex: 1;
 }
 
 .chartContainer {
+  flex: 1;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -89,5 +92,6 @@ img {
   box-sizing: border-box;
   border: 1px solid #9e9e9e50;
   border-radius: 16px;
+  display: grid;
   padding: 4px;
 }

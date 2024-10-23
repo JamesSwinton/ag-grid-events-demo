@@ -5,8 +5,6 @@ import Form from './form/Form';
 import DataGrid from './DataGrid/DataGrid';
 import MapChart from './MapChart/MapChart';
 import AgeIncomeChart from './AgeIncomeChart/AgeIncomeChart';
-import agChartsLogo from '../assets/ag-charts-logo.png';
-import agGridLogo from '../assets/ag-grid-logo.png';
 import { defaultData } from '../data/defaultData';
 
 function App() {
@@ -21,6 +19,15 @@ function App() {
     setData((prevData) => {
       const updatedData = [...prevData, newData];
       localStorage.setItem('appData', JSON.stringify(updatedData)); // Persist new data immediately
+      return updatedData;
+    });
+  };
+
+  const removeData = (rowId) => {
+    setData((prevData) => {
+      const updatedData = prevData.filter((row) => row.id !== rowId);
+      localStorage.setItem('appData', JSON.stringify(updatedData)); // Persist new data immediately
+      console.log(updatedData);
       return updatedData;
     });
   };
@@ -52,8 +59,16 @@ function App() {
     <div className={styles.container}>
       <div className={styles.sidebar}>
         <div className={styles.logoContainer}>
-          <img src={agGridLogo} className={styles.logo} alt="ag-Grid Logo" />
-          <img src={agChartsLogo} className={styles.logo} alt="ag-Grid Logo" />
+          <img
+            src="./brand/ag-grid-logo.png"
+            className={styles.logo}
+            alt="ag-Grid Logo"
+          />
+          <img
+            src="./brand/ag-charts-logo.png"
+            className={styles.logo}
+            alt="ag-Grid Logo"
+          />
         </div>
         <Form onSubmit={handleFormData} />
         <div className={styles.linksContainer}>
@@ -71,7 +86,7 @@ function App() {
       </div>
       <div className={styles.content}>
         <div className={styles.gridContainer}>
-          <DataGrid rowData={data} />
+          <DataGrid rowData={data} removeData={removeData} />
         </div>
         <div className={styles.chartContainer}>
           <div className={styles.chart}>

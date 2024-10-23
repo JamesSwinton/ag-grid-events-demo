@@ -14,9 +14,9 @@ const DataForm = ({ onSubmit }) => {
 
   const [formData, setFormData] = useState(defaultFormData);
   const [errors, setErrors] = useState({});
-  const [formKey, setFormKey] = useState(0); // To force re-render form
+  const [formKey, setFormKey] = useState(1000);
+  const [showIncome, setShowIncome] = useState(false); // State to toggle visibility
 
-  // Prepare options for react-select
   const nationalityOptions = Object.entries(nationalityCodes).map(
     ([code, name]) => ({
       value: name,
@@ -74,8 +74,14 @@ const DataForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (validateForm()) {
-      onSubmit(formData);
+      const formDataWithId = {
+        ...formData,
+        id: Math.floor(Math.random() * 1000000), // Add a random ID field
+      };
+
+      onSubmit(formDataWithId);
       resetForm(); // Call the reset function after a successful submission
     }
   };
@@ -89,11 +95,13 @@ const DataForm = ({ onSubmit }) => {
   const formatIncome = (income) => {
     return income
       ? new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
           minimumFractionDigits: 0,
         }).format(income)
       : '';
+  };
+
+  const toggleIncomeVisibility = () => {
+    setShowIncome((prevState) => !prevState);
   };
 
   return (
@@ -119,22 +127,37 @@ const DataForm = ({ onSubmit }) => {
           required
         />
         {errors.age && <span className={styles.error}>{errors.age}</span>}
-
         {/* Yearly Income Input with Currency Formatting */}
         <label htmlFor="income" className={styles.label}>
           Yearly Income ($):
         </label>
-        <input
-          type="text"
-          id="income"
-          name="income"
-          placeholder="Enter your yearly income in USD"
-          value={formatIncome(formData.income)}
-          onChange={handleChange}
-          className={styles.input}
-          required
-        />
-        {errors.income && <span className={styles.error}>{errors.income}</span>}
+        <div className={styles.relativeContainer}>
+          <img className={styles.icon} src="./icons/dollar.png" />
+          <input
+            type={showIncome ? 'text' : 'password'}
+            id="income"
+            name="income"
+            placeholder="Enter your yearly income in USD"
+            value={formatIncome(formData.income)}
+            onChange={handleChange}
+            className={styles.relativeInput}
+            required
+          />
+          <button
+            type="button"
+            onClick={() => toggleIncomeVisibility()}
+            className={styles.toggleButton}
+          >
+            <img
+              src={showIncome ? './icons/invisible.png' : './icons/show.png'}
+              alt="show or hide income"
+              className={styles.toggleIcon}
+            />
+          </button>
+          {errors.income && (
+            <span className={styles.error}>{errors.income}</span>
+          )}
+        </div>
 
         {/* Degree - Boolean Dropdown */}
         <label htmlFor="degree" className={styles.label}>
@@ -153,7 +176,6 @@ const DataForm = ({ onSubmit }) => {
           <option value={false}>No</option>
         </select>
         {errors.degree && <span className={styles.error}>{errors.degree}</span>}
-
         {/* Nationality of Origin Searchable Dropdown */}
         <label htmlFor="nationality" className={styles.label}>
           Nationality:
@@ -172,7 +194,6 @@ const DataForm = ({ onSubmit }) => {
         {errors.nationality && (
           <span className={styles.error}>{errors.nationality}</span>
         )}
-
         {/* Years of Experience Slider */}
         <label htmlFor="experience" className={styles.label}>
           Years of Experience:
@@ -192,7 +213,6 @@ const DataForm = ({ onSubmit }) => {
         {errors.experience && (
           <span className={styles.error}>{errors.experience}</span>
         )}
-
         <button type="submit" className={styles.button}>
           Submit
         </button>

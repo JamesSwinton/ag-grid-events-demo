@@ -28,7 +28,6 @@ const MapChart = ({ data }) => {
     },
     data: chartData, // use the updated chartData state
     topology,
-    height: 575,
     theme: 'ag-vivid-dark',
     zoom: {
       enabled: true,

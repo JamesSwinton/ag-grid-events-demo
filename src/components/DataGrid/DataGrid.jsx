@@ -75,7 +75,7 @@ const avgAggFunction = (params) => {
   return result;
 };
 
-const DataGrid = ({ rowData }) => {
+const DataGrid = ({ rowData, removeData }) => {
   const columnDefs = [
     {
       headerName: 'Age',
@@ -129,6 +129,32 @@ const DataGrid = ({ rowData }) => {
     return { resizable: true, sortable: true, enableRowGroup: true };
   });
 
+  const deleteRow = (rowNode) => {
+    const password = prompt('Enter password to delete:');
+    const correctPassword = 'balham'; // Replace this with your actual password
+
+    if (password === correctPassword) {
+      removeData(rowNode.data.id);
+    } else {
+      alert('Incorrect password.');
+    }
+  };
+
+  const getContextMenuItems = (params) => {
+    const defaultItems = params.defaultItems;
+
+    const customMenuItem = {
+      name: 'Delete',
+      action: () => deleteRow(params.node),
+    };
+
+    if (!params.node.group) {
+      defaultItems.push(customMenuItem);
+    }
+
+    return defaultItems;
+  };
+
   const statusBar = useMemo(() => {
     return {
       statusPanels: [
@@ -177,7 +203,7 @@ const DataGrid = ({ rowData }) => {
   return (
     <div
       className="ag-theme-quartz-dark"
-      style={{ height: 650, width: '100%' }}
+      style={{ height: '100%', width: '100%' }}
     >
       <AgGridReact
         rowData={rowData}
@@ -195,6 +221,7 @@ const DataGrid = ({ rowData }) => {
         enableCharts={true}
         suppressAggFuncInHeader={true}
         autoGroupColumnDef={autoGroupColumnDef}
+        getContextMenuItems={getContextMenuItems}
         // grandTotalRow={'bottom'}
       />
     </div>

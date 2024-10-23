@@ -58,7 +58,6 @@ const AgeIncomeChart = ({ data }) => {
     subtitle: { text: 'Realtime attendee data' },
     data: data,
     theme: 'ag-vivid-dark',
-    height: 575,
     series: [
       {
         type: 'bubble',
@@ -119,11 +118,7 @@ const AgeIncomeChart = ({ data }) => {
     ],
   };
 
-  return (
-    <div>
-      <AgCharts options={incomeVsExperienceOptions} />
-    </div>
-  );
+  return <AgCharts options={incomeVsExperienceOptions} />;
 };
 
 export default AgeIncomeChart;

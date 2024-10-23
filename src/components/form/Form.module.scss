@@ -90,8 +90,63 @@
   font-weight: 600;
 }
 
+.inlineLabelContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.inlineLabel {
+  margin-left: 12px;
+  justify-content: flex-start;
+  color: white;
+  font-weight: 600;
+}
+
 .span {
   margin-left: 4px;
+}
+
+.error {
+  color: red;
+}
+
+.relativeContainer {
+  position: relative;
+  width: 100%;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  height: 50%;
+  opacity: 66%;
+}
+
+.relativeInput {
+  width: 86%;
+  padding-left: 40px; /* Add padding to account for the icon */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 35px;
+}
+
+.toggleButton {
+  position: absolute;
+  top: 55%;
+  right: 10px;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.toggleIcon {
+  width: 20px;
+  height: 100%;
+  opacity: 66%;
 }
 
 .error {
