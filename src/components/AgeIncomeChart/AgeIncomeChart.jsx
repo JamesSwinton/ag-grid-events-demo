@@ -55,6 +55,31 @@ const AgeIncomeChart = ({ data }) => {
   const averageIncomeData = generateAverageIncomeData(data, trendLine);
   const { withDegree, withoutDegree } = splitDataByDegree(data);
 
+  function renderer(params) {
+    const data = params.datum;
+    return (
+      '<div class="ag-chart-tooltip-title" style="background-color:' +
+      params.color +
+      '">' +
+      params.yName +
+      '</div>' +
+      '<div class="ag-chart-tooltip-content" style="line-height: 1.7;">' +
+      '<span><b>Age</b>: ' +
+      data.age +
+      '</span><br>' +
+      '<span><b>Income</b>: £' +
+      data.income.toFixed(0) +
+      '</span><br>' +
+      '<span><b>Experience</b>: ' +
+      data.experience +
+      ' years</span><br>' +
+      '<span><b>Nationality</b>: ' +
+      data.nationality +
+      '</span>' +
+      '</div>'
+    );
+  }
+
   const incomeVsExperienceOptions = {
     title: { text: 'Attendee Income Distribution by Age, Experience & Degree' },
     subtitle: {
@@ -72,6 +97,7 @@ const AgeIncomeChart = ({ data }) => {
         data: withDegree,
         fill: '#C6B1FC',
         stroke: '#C6B1FC',
+        tooltip: { renderer: renderer },
       },
       {
         type: 'bubble',
@@ -82,6 +108,7 @@ const AgeIncomeChart = ({ data }) => {
         fill: '#2CDBD6',
         stroke: '#2CDBD6',
         data: withoutDegree,
+        tooltip: { renderer: renderer },
       },
       {
         type: 'line',

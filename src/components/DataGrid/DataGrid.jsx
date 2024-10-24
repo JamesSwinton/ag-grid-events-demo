@@ -105,8 +105,6 @@ const DataGrid = ({ rowData, removeData, onNationalitiesSelected }) => {
       field: 'nationality',
       sortable: true,
       cellRenderer: FlagCellRenderer,
-      rowGroup: true,
-      hide: true,
     },
     {
       headerName: 'Degree',
@@ -178,6 +176,8 @@ const DataGrid = ({ rowData, removeData, onNationalitiesSelected }) => {
   const [selectedNationalities, setSelectedNationalities] = useState([]);
   const handleRowSelection = (e) => {
     let nationality = '';
+
+    console.log(e);
 
     // Determine the nationality based on group and field conditions
     if (e.node.group && e.node.field === 'nationality') {
