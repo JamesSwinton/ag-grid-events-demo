@@ -55,7 +55,9 @@ const AgeIncomeChart = ({ data, selectedIds }) => {
   const averageIncomeData = generateAverageIncomeData(data, trendLine);
   const { withDegree, withoutDegree } = splitDataByDegree(data);
 
-  function renderer(params) {
+  console.log(selectedIds);
+
+  const renderer = (params) => {
     const data = params.datum;
     return (
       '<div class="ag-chart-tooltip-title" style="background-color:' +
@@ -78,7 +80,13 @@ const AgeIncomeChart = ({ data, selectedIds }) => {
       '</span>' +
       '</div>'
     );
-  }
+  };
+
+  const styler = (p) => {
+    if (selectedIds.length > 0 && !selectedIds.includes(p.datum.id)) {
+      return { stroke: '', fill: '' };
+    }
+  };
 
   const incomeVsExperienceOptions = {
     title: { text: 'Attendee Income Distribution by Age, Experience & Degree' },
@@ -98,11 +106,7 @@ const AgeIncomeChart = ({ data, selectedIds }) => {
         fill: '#C6B1FC',
         stroke: '#C6B1FC',
         tooltip: { renderer: renderer },
-        itemStyler: (p) => {
-          if (selectedIds.includes(p.datum.id)) {
-            return { stroke: '#ff0000', fill: '#ff0000' };
-          }
-        },
+        itemStyler: styler,
       },
       {
         type: 'bubble',
@@ -114,11 +118,7 @@ const AgeIncomeChart = ({ data, selectedIds }) => {
         stroke: '#2CDBD6',
         data: withoutDegree,
         tooltip: { renderer: renderer },
-        itemStyler: (p) => {
-          if (selectedIds.includes(p.datum.id)) {
-            return { stroke: '#ff0000', fill: '#ff0000' };
-          }
-        },
+        itemStyler: styler,
       },
       {
         type: 'line',
