@@ -209,7 +209,6 @@ const DataGrid = ({ rowData, removeData, onNationalitiesSelected }) => {
 
   // Pass Selected Nationalities up
   useEffect(() => {
-    console.log('Grid: ', selectedNationalities);
     onNationalitiesSelected(selectedNationalities);
   }, [selectedNationalities]);
 
