@@ -4,7 +4,7 @@ import { defaultData } from './data';
 import { topology } from './topology';
 import 'ag-charts-enterprise';
 
-const MapChart = ({ data }) => {
+const MapChart = ({ data, selectedNationalities }) => {
   const [chartData, setChartData] = useState(defaultData);
 
   useEffect(() => {
@@ -44,6 +44,11 @@ const MapChart = ({ data }) => {
         colorKey: 'value',
         colorName: 'Number of Attendees',
         colorRange: ['#1b4f72', '#f4d03f', '#e67e22', '#c0392b'],
+        itemStyler: (p) => {
+          if (selectedNationalities.includes(p.datum.name)) {
+            return { stroke: '#fff', fill: '#fff' };
+          }
+        },
       },
     ],
     gradientLegend: {

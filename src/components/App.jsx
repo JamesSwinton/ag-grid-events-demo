@@ -55,6 +55,11 @@ function App() {
     },
   ];
 
+  const [selectedNationalities, setSelectedNationalities] = useState([]);
+  const onNationalitiesSelected = (nationalities) => {
+    setSelectedNationalities(nationalities);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
@@ -86,14 +91,21 @@ function App() {
       </div>
       <div className={styles.content}>
         <div className={styles.gridContainer}>
-          <DataGrid rowData={data} removeData={removeData} />
+          <DataGrid
+            rowData={data}
+            removeData={removeData}
+            onNationalitiesSelected={onNationalitiesSelected}
+          />
         </div>
         <div className={styles.chartContainer}>
           <div className={styles.chart}>
             <AgeIncomeChart data={data} />
           </div>
           <div className={styles.chart}>
-            <MapChart data={data} />
+            <MapChart
+              data={data}
+              selectedNationalities={selectedNationalities}
+            />
           </div>
         </div>
       </div>

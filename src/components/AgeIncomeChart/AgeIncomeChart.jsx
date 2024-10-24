@@ -57,7 +57,9 @@ const AgeIncomeChart = ({ data }) => {
 
   const incomeVsExperienceOptions = {
     title: { text: 'Attendee Income Distribution by Age, Experience & Degree' },
-    subtitle: { text: 'Realtime attendee data' },
+    subtitle: {
+      text: 'Click elements to view more detail & toggle series visibility with the legend',
+    },
     data: data,
     theme: 'ag-vivid-dark',
     series: [

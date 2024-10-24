@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
@@ -77,7 +77,7 @@ const avgAggFunction = (params) => {
   return result;
 };
 
-const DataGrid = ({ rowData, removeData }) => {
+const DataGrid = ({ rowData, removeData, onNationalitiesSelected }) => {
   const columnDefs = [
     {
       headerName: 'Age',
@@ -172,8 +172,46 @@ const DataGrid = ({ rowData, removeData }) => {
   }, []);
 
   const rowSelection = useMemo(() => {
-    return { mode: 'multiRow' };
+    return { mode: 'multiRow', groupSelects: 'descendants' };
   }, []);
+
+  const [selectedNationalities, setSelectedNationalities] = useState([]);
+  const handleRowSelection = (e) => {
+    let nationality = '';
+
+    // Determine the nationality based on group and field conditions
+    if (e.node.group && e.node.field === 'nationality') {
+      nationality = e.node.key;
+    } else {
+      const row = rowData.find((data) => data.id == e.node.data.id);
+      if (row) {
+        nationality = row.nationality;
+      }
+    }
+
+    // Check if node is selected or deselected
+    if (e.node.isSelected()) {
+      // Add the nationality to the array, allowing duplicates
+      setSelectedNationalities((prev) => [...prev, nationality]);
+    } else {
+      // Remove only one instance of the nationality when deselected
+      setSelectedNationalities((prev) => {
+        const index = prev.indexOf(nationality);
+        if (index > -1) {
+          const newSelected = [...prev];
+          newSelected.splice(index, 1);
+          return newSelected;
+        }
+        return prev;
+      });
+    }
+  };
+
+  // Pass Selected Nationalities up
+  useEffect(() => {
+    console.log('Grid: ', selectedNationalities);
+    onNationalitiesSelected(selectedNationalities);
+  }, [selectedNationalities]);
 
   const selectionColumnDef = useMemo(() => {
     return {
@@ -224,6 +262,7 @@ const DataGrid = ({ rowData, removeData }) => {
         suppressAggFuncInHeader={true}
         autoGroupColumnDef={autoGroupColumnDef}
         getContextMenuItems={getContextMenuItems}
+        onRowSelected={(e) => handleRowSelection(e)}
         // grandTotalRow={'bottom'}
       />
     </div>
