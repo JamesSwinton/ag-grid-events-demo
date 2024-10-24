@@ -71,7 +71,7 @@ function App() {
           />
         </div>
         <Form onSubmit={handleFormData} />
-        <div className={styles.linksContainer}>
+        {/* <div className={styles.linksContainer}>
           {links.map((link, index) => (
             <span key={index} className={styles.linkItem}>
               <a href={link.url} target="_blank" className={styles.link}>
@@ -82,7 +82,7 @@ function App() {
               )}
             </span>
           ))}
-        </div>
+        </div> */}
       </div>
       <div className={styles.content}>
         <div className={styles.gridContainer}>
