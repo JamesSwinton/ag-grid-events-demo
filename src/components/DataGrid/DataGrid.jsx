@@ -80,6 +80,12 @@ const avgAggFunction = (params) => {
 const DataGrid = ({ rowData, removeData, onNationalitiesSelected }) => {
   const columnDefs = [
     {
+      headerName: 'Nationality',
+      field: 'nationality',
+      sortable: true,
+      cellRenderer: FlagCellRenderer,
+    },
+    {
       headerName: 'Age',
       field: 'age',
       sortable: true,
@@ -99,12 +105,6 @@ const DataGrid = ({ rowData, removeData, onNationalitiesSelected }) => {
       sortable: true,
       aggFunc: 'avg',
       valueFormatter: formatIncome,
-    },
-    {
-      headerName: 'Nationality',
-      field: 'nationality',
-      sortable: true,
-      cellRenderer: FlagCellRenderer,
     },
     {
       headerName: 'Degree',
