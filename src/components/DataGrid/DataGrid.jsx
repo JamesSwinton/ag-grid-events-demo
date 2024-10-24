@@ -77,7 +77,12 @@ const avgAggFunction = (params) => {
   return result;
 };
 
-const DataGrid = ({ rowData, removeData, onNationalitiesSelected }) => {
+const DataGrid = ({
+  rowData,
+  removeData,
+  onNationalitiesSelected,
+  onIdsSelected,
+}) => {
   const columnDefs = [
     {
       headerName: 'Nationality',
@@ -173,9 +178,11 @@ const DataGrid = ({ rowData, removeData, onNationalitiesSelected }) => {
     return { mode: 'multiRow', groupSelects: 'descendants' };
   }, []);
 
+  const [selectedIds, setSelectedIds] = useState([]);
   const [selectedNationalities, setSelectedNationalities] = useState([]);
   const handleRowSelection = (e) => {
     let nationality = '';
+    let id = '';
 
     // Determine the nationality based on group and field conditions
     if (e.node.group && e.node.field === 'nationality') {
@@ -184,6 +191,7 @@ const DataGrid = ({ rowData, removeData, onNationalitiesSelected }) => {
       const row = rowData.find((data) => data.id == e.node.data.id);
       if (row) {
         nationality = row.nationality;
+        id = row.id;
       }
     }
 
@@ -191,10 +199,21 @@ const DataGrid = ({ rowData, removeData, onNationalitiesSelected }) => {
     if (e.node.isSelected()) {
       // Add the nationality to the array, allowing duplicates
       setSelectedNationalities((prev) => [...prev, nationality]);
+      setSelectedIds((prev) => [...prev, id]);
     } else {
       // Remove only one instance of the nationality when deselected
       setSelectedNationalities((prev) => {
         const index = prev.indexOf(nationality);
+        if (index > -1) {
+          const newSelected = [...prev];
+          newSelected.splice(index, 1);
+          return newSelected;
+        }
+        return prev;
+      });
+
+      setSelectedIds((prev) => {
+        const index = prev.indexOf(id);
         if (index > -1) {
           const newSelected = [...prev];
           newSelected.splice(index, 1);
@@ -209,6 +228,10 @@ const DataGrid = ({ rowData, removeData, onNationalitiesSelected }) => {
   useEffect(() => {
     onNationalitiesSelected(selectedNationalities);
   }, [selectedNationalities]);
+
+  useEffect(() => {
+    onIdsSelected(selectedIds);
+  }, [selectedIds]);
 
   const selectionColumnDef = useMemo(() => {
     return {

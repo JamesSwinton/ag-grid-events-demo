@@ -50,7 +50,7 @@ function splitDataByDegree(data) {
   return { withDegree, withoutDegree };
 }
 
-const AgeIncomeChart = ({ data }) => {
+const AgeIncomeChart = ({ data, selectedIds }) => {
   const trendLine = calculateTrendLine(data);
   const averageIncomeData = generateAverageIncomeData(data, trendLine);
   const { withDegree, withoutDegree } = splitDataByDegree(data);
@@ -98,6 +98,11 @@ const AgeIncomeChart = ({ data }) => {
         fill: '#C6B1FC',
         stroke: '#C6B1FC',
         tooltip: { renderer: renderer },
+        itemStyler: (p) => {
+          if (selectedIds.includes(p.datum.id)) {
+            return { stroke: '#ff0000', fill: '#ff0000' };
+          }
+        },
       },
       {
         type: 'bubble',
@@ -109,6 +114,11 @@ const AgeIncomeChart = ({ data }) => {
         stroke: '#2CDBD6',
         data: withoutDegree,
         tooltip: { renderer: renderer },
+        itemStyler: (p) => {
+          if (selectedIds.includes(p.datum.id)) {
+            return { stroke: '#ff0000', fill: '#ff0000' };
+          }
+        },
       },
       {
         type: 'line',
